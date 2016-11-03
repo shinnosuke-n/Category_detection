@@ -89,7 +89,7 @@ def main(_):
   
         one_hot_mat=predictmatrix.make_one_hot_matrix(sess.run(tf.nn.softmax(y),feed_dict={x:test_data.x}),t)
         try:
-            f1, precision, recall, accuracy=F1.perf_measure(test_data.y_, one_hot_mat)
+            f1=F1.perf_measure(test_data.y_, one_hot_mat)
             f1_list.append(f1)
         except:
             continue

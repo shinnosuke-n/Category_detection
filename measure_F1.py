@@ -30,8 +30,6 @@ def perf_measure(y_true_matrix, y_pred_matrix):
         except:
             continue
 
-        acc=((tp+tn)/float(tp+fp+tn+fn))
-
         F1_list.append(F1)
 
     return(np.array(F1_list).mean())
