@@ -5,11 +5,7 @@ from collections import defaultdict
 import numpy as np
 from numpy.random import *
 
-
-
-
 def xml_parse(file_name):
-    # the train set is composed by train and trial data set
     train_data=[]
     sentences=[]
 
@@ -65,7 +61,6 @@ def label_proc(data_list,cm_labels,normalized):
     for data_tuple in data_list:
         label_vect=[0]*len(common_dict)
         category_list=data_tuple[1]
-        #print (1/float(len(set(category_list))))
 
         for cat in category_list:
             if normalized==True:
@@ -83,7 +78,6 @@ def load_word2vec(word2vec, words):
     for word in words:
         if word in word2vec:
             screened_words.append(word)
-    #print("original vocab: {} vocab in wor2vec: {}".format(len(words), len(screened_words)))
     weights  = np.zeros([len(screened_words), 300])
     screened_words = sorted(screened_words)
     w2idx    = {w:i for i, w in enumerate(screened_words)}
@@ -94,16 +88,13 @@ def load_word2vec(word2vec, words):
 def make_Dataset(train_data_list,word2vec_models):
     train_list=[]
     train_labels=[]
-    #c=0
     for data_tuple in train_data_list:
         train_labels.append(data_tuple[1])
 
         sent_list=[]
         embedding, vocabs, word2index = load_word2vec(word2vec_models, data_tuple[0])
-        #print("test printing")
         for word in vocabs:
             w_id = word2index[word]
-            #print (embedding[w_id])
             sent_list.append(embedding[w_id])
         sent_matrix=np.array(sent_list)
 
@@ -112,17 +103,6 @@ def make_Dataset(train_data_list,word2vec_models):
 
         else:
             train_list.append(np.mean(sent_matrix,axis=0))
-            #print (sent_matrix.shape,c)
-
-        """
-        try:
-            averaged_vec=np.mean(sent_matrix,axis=0)
-            train_list.append(np.mean(sent_matrix,axis=0))
-        except RuntimeWarning:
-            train_list.append(np.array([0]*300))
-            continue
-    train_matrix=np.array(train_list)
-    """
 
     train_matrix=np.array(train_list)
     label_matrix=np.array(train_labels)
