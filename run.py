@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import
 from __future__ import division
@@ -55,6 +54,7 @@ def main(_):
 
     test_file='data/ABSA15_Laptops_Test.xml'
     train_file='data/ABSA-15_Laptops_Train_Data.xml'
+  
     raw_test_data=pp.xml_parse(test_file)
     raw_train_data=pp.xml_parse(train_file)
 
@@ -80,24 +80,20 @@ def main(_):
     for _ in range(1000):
         batch_xs, batch_ys = train_data.get_next_minibatch()
         sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
-        #print (sess.run(y,feed_dict={x: batch_xs, y_: batch_ys}))
 
     # Test trained model
-    
-    #correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
-    #accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-    #print(sess.run(accuracy, feed_dict={x: test_data.x, y_: test_data.y_}))
-    
     # Find the best theta and F1 value
     f1_list=[]
     for i in range(1000):
         t=random()
+  
         one_hot_mat=predictmatrix.make_one_hot_matrix(sess.run(tf.nn.softmax(y),feed_dict={x:test_data.x}),t)
         try:
             f1, precision, recall, accuracy=F1.perf_measure(test_data.y_, one_hot_mat)
             f1_list.append(f1)
         except:
             continue
+    
     print (max(f1_list))
 
 
