@@ -1,7 +1,5 @@
 import numpy as np
 
-#y_true = np.array([[0, 1, 0, 0, 1, 1],[0, 1, 0, 0, 1, 1],[0, 1, 0, 0, 1, 1]])
-#y_pred = np.array([[0, 0, 1, 0, 0, 1],[0, 0, 1, 0, 0, 1],[0, 0, 1, 0, 0, 1]])
 
 def perf_measure(y_true_matrix, y_pred_matrix):
     F1_list=[]
@@ -25,8 +23,6 @@ def perf_measure(y_true_matrix, y_pred_matrix):
             if y_actual[i]==1 and y_hat[i]==0:
                fn += 1
 
-        #print(tp, fp, tn, fn)
-
         recall=(tp / float(tp + fn))
         precision=(tp / float(tp + fp))
         try:
@@ -40,5 +36,3 @@ def perf_measure(y_true_matrix, y_pred_matrix):
 
     return(np.array(F1_list).mean())
 
-#print(perf_measure(y_true, y_pred))
-#print (y_true)
